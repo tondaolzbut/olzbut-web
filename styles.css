@@ -1,0 +1,159 @@
+.profile-header {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: sans-serif;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.339);
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.profile-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffffdf;
+}
+
+.profile-name {
+  color: #446d95;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #90cfff, #dcac8a, #bc8ac1, #7b4184);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Set CSS variables for scaling */
+:root {
+  --frame-count: 13;
+  --frame-width: calc(100vw / 3); /* width of one frame */
+  --sprite-height: calc(var(--frame-width) * (1080 / 1080)); /* maintain aspect ratio */
+  --x-offset-start: calc(-100vw * (7 / 54));
+  --x-offset-end: calc(-100vw * (391/54));
+}
+
+/* Each sprite container */
+.sprite {
+  position: relative;
+  height: calc(100vw/3);
+  width: calc(100vw/3);
+  background-repeat: no-repeat;
+  background-position-x: var(--x-offset-start);
+  filter: brightness(60%);
+  transition: filter 0.3s ease;
+  transform: scale(0.8);
+  transform-origin: center;
+
+  /* background-size width = frame-width * frame-count, height = sprite height */
+  background-size: calc(var(--frame-width) * var(--frame-count) * 1920/1080) var(--sprite-height);
+}
+
+/* In portrait, use height-based sizing */
+@media (orientation: portrait) {
+  .menu {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .sprite {
+    height: calc(100vh/3);
+    width: calc(100vh/3);
+
+    background-size: calc((100vh / 3) * var(--frame-count) * 1920/1080) calc(100vh / 3);
+    filter: brightness(100%);
+  }
+  :root{
+    --x-offset-start: calc(-100vh * (7 / 54));
+    --x-offset-end: calc(-100vh * (391/54));
+  }
+    .profile-header {
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    gap: 6px;
+    font-size: 0.85rem;
+  }
+
+  .profile-photo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profile-name {
+    font-size: 0.85rem;
+  }
+}
+
+/* Smaller hover zone */
+.hover-zone {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Backgrounds */
+.music {
+  background-image: url('music sprite.png');
+}
+.code {
+  background-image: url('code sprite.png');
+}
+.office {
+  background-image: url('office sprite.png');
+}
+
+/* Animation */
+.sprite.play {
+  animation: playSprite 0.3s steps(12) forwards;
+  filter: brightness(100%);
+}
+.sprite.reverse {
+  animation: reverseSprite 0.3s steps(12) forwards;
+}
+
+@keyframes playSprite {
+  from { background-position-x: var(--x-offset-start); }
+  to { background-position-x: var(--x-offset-end); }
+}
+
+@keyframes reverseSprite {
+  from { background-position-x: var(--x-offset-end); }
+  to { background-position-x: var(--x-offset-start); }
+}
